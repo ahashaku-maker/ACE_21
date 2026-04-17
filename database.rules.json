@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": "auth != null",
+        "meta": {
+          ".write": "auth != null"
+        },
+        "players": {
+          "$uid": {
+            ".write": "auth.uid === $uid || auth.uid === data.parent().parent().child('meta/hostId').val()",
+            "hand": {
+              ".read": "auth.uid === $uid"
+            }
+          }
+        },
+        "game": {
+          "pendingAction": {
+            ".write": "auth != null"
+          },
+          ".write": "auth.uid === data.parent().child('meta/hostId').val()"
+        },
+        "roundState": {
+          ".write": "auth.uid === data.parent().child('meta/hostId').val()"
+        }
+      }
+    }
+  }
+}
